@@ -194,17 +194,3 @@ function restartGame() {
     xTurn = true
     noChoiceList = []
 }
-
-// const gameBoard = (() => {
-
-   
-// })()
-
-// const displayController = (() => {
-
-
-// })()
-
-// const playerFactory = (sign) => {
-
-// }
