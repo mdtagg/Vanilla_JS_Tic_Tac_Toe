@@ -45,11 +45,16 @@ let oTurn = false
 const boxes = document.querySelectorAll('.box')
 boxes.forEach(box => box.addEventListener('click', (e) => {
 
-    if(xTurn === true) {
+    if(e.target.textContent === 'X' || e.target.textContent === 'O') {
+        return
+    }
+
+    else if(xTurn === true) {
         e.target.textContent = 'X'
         xTurn = false
         oTurn = true
     }
+    
     else {
         e.target.textContent = 'O'
         oTurn = false
@@ -62,16 +67,20 @@ boxes.forEach(box => box.addEventListener('click', (e) => {
 
 // const winningComboArray = []
 
-// function checkForWins() {
+function checkBoard(board) {
 
-//     checkForRows()
-//     checkForColumns()
-//     checkForDiagonals()
-// }
+    checkForRows(board)
+    checkForColumns(board)
+    checkForDiagonals(board)
 
-// checkForRows() {
+    if(checkForRows || checkForColumns || checkForDiagonals) {
+        console.log('You Win')
+    }
+}
 
-// }
+function checkForRows(board) {
+    
+}
 
 
 const xWinningCombos = [
@@ -111,7 +120,12 @@ function checkForWins() {
         
     }
     console.log(board)
+    checkBoard(board)
 }
+
+// function checkBoard(board) {
+    
+// }
 
     
 
