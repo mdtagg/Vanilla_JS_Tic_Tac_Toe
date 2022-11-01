@@ -36,6 +36,8 @@ const playerFactory = (sign) => {
 
 }
 
+
+
 //flipping turns
 
 let xTurn = true
@@ -52,15 +54,27 @@ boxes.forEach(box => box.addEventListener('click', (e) => {
         e.target.textContent = 'X'
         xTurn = false
         oTurn = true
+        noChoiceList.push(parseInt(e.target.dataset.attribute))
+        console.log(noChoiceList)
+        aiChoice(e)
     }
     
-    else {
-        e.target.textContent = 'O'
-        oTurn = false
-        xTurn = true
-    }
+    // else {
+        
+    //     e.target.textContent = 'O'
+    //     oTurn = false
+    //     xTurn = true
+    // }
     checkForWins()
 }))
+
+// ai 
+let noChoiceList = []
+
+function aiChoice(e) {
+    let randomNumber = Math.floor(Math.random() * 10)
+    console.log(randomNumber)
+}
 
 //checking for wins loss draw
 
@@ -182,8 +196,3 @@ function restartGame() {
     oTurn = false
 }
 
-// ai 
-
-function aiChoice() {
-    
-}
