@@ -34,7 +34,6 @@ const displayController = (() => {
 
 const playerFactory = (sign) => {
 
-
 }
 
 //flipping turns
@@ -160,4 +159,14 @@ function checkForWins() {
         
     }
     checkBoard(board)
+}
+
+const restart = document.querySelector('.restart-button')
+restart.addEventListener('click', restartGame)
+
+function restartGame() {
+    boxes.forEach(box => box.textContent = "")
+    modal.setAttribute('style','display:none;')
+    xTurn = true
+    oTurn = false
 }
