@@ -86,8 +86,15 @@ function lossMessage() {
     modal_text.textContent = 'YOU LOSE!'
 }
 
+function tieMessage() {
+    modal.setAttribute('style','display:block;')
+    modal_text.textContent = 'ITS A DRAW!'
+}
+
 let winningCombo = '1,1,1'
 let losingCombo = '0,0,0'
+
+
 
 function checkRows(board) {
     let firstRow = [board[0],board[1],board[2]]
@@ -106,6 +113,10 @@ function checkRows(board) {
     thirdRow.toString() === losingCombo ) {
         
         lossMessage()
+    }
+
+    else if(!board.includes('')) {
+        tieMessage()
     }
 }
 
@@ -169,4 +180,10 @@ function restartGame() {
     modal.setAttribute('style','display:none;')
     xTurn = true
     oTurn = false
+}
+
+// ai 
+
+function aiChoice() {
+    
 }
