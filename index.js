@@ -19,40 +19,26 @@ const createGameBoard = (() => {
         }
         container.appendChild(box)
     }
-})()
- 
-const gameBoard = (() => {
-
-    let gameField = new Array(9)
-
+    
 })()
 
-const displayController = (() => {
-
-
-})()
-
-const playerFactory = (sign) => {
-
-}
 
 //flipping turns
 
 const boxes = document.querySelectorAll('.box')
-boxes.forEach(box => box.addEventListener('click', (e) => {
+boxes.forEach(box => box.addEventListener('click', playerChoice))
 
+function playerChoice(e) {
     if(e.target.textContent === 'X' || e.target.textContent === 'O') {
         return
     }
-
     else  {
         e.target.textContent = 'X'
         noChoiceList.push(parseInt(e.target.dataset.attribute))
         aiChoice()
     }
-
     checkForWins()
-}))
+}
 
 // ai 
 
@@ -81,6 +67,17 @@ function aiChoice() {
 }
 
 //checking for wins loss draw
+
+// const gameState = () => {
+//     const winningComboArray = [];
+//     const checkBoard = (board) => {
+//         checkRows(board)
+//         checkColumns(board)
+//         checkDiagonals(board)
+//     }
+
+    
+
 
 const winningComboArray = []
 
@@ -198,3 +195,16 @@ function restartGame() {
     noChoiceList = []
 }
 
+// const gameBoard = (() => {
+
+   
+// })()
+
+// const displayController = (() => {
+
+
+// })()
+
+// const playerFactory = (sign) => {
+
+// }
