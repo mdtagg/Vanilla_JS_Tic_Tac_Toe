@@ -60,6 +60,7 @@ boxes.forEach(box => box.addEventListener('click', (e) => {
 }))
 
 // ai 
+
 let noChoiceList = []
 
 function aiChoice() {
@@ -67,12 +68,12 @@ function aiChoice() {
     
     for(let i = 0;i < noChoiceList.length;i++) {
 
-        if(noChoiceList.includes(randomNumber)) {
+        if(noChoiceList.includes(randomNumber) && noChoiceList.length === 9) {
+            checkForWins()
+        }
+        else if(noChoiceList.includes(randomNumber)) {
             aiChoice()
             return 
-        }
-        else if(noChoiceList.length === 9) {
-            tieMessage()
         }
         else {
             console.log(noChoiceList)
