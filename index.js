@@ -74,6 +74,19 @@ function checkBoard(board) {
     checkDiagonals(board)
 }
 
+const modal = document.querySelector('.modal')
+const modal_text = document.querySelector('.modal-text')
+
+function winMessage() {
+    modal.setAttribute('style','display:block;')
+    modal_text.textContent = 'YOU WIN!'
+}
+
+function lossMessage() {
+    modal.setAttribute('style','display:block;')
+    modal_text.textContent = 'YOU LOSE!'
+}
+
 let winningCombo = '1,1,1'
 let losingCombo = '0,0,0'
 
@@ -86,18 +99,14 @@ function checkRows(board) {
     secondRow.toString() === winningCombo ||
     thirdRow.toString() === winningCombo ) {
 
-        const modal = document.querySelector('.modal')
-        const modal_text = document.querySelector('.modal-text')
-        modal.setAttribute('style','display:block;')
-        console.log(modal_text)
-        modal_text.textContent = 'YOU WIN!'
+        winMessage()
     } 
 
     else if(firstRow.toString() === losingCombo ||
     secondRow.toString() === losingCombo ||
     thirdRow.toString() === losingCombo ) {
-        console.log('loss')
-        return 'loss'
+        
+        lossMessage()
     }
 }
 
@@ -109,15 +118,15 @@ function checkColumns(board) {
     if(firstColumn.toString() === winningCombo ||
     secondColumn.toString() === winningCombo ||
     thirdColumn.toString() === winningCombo) {
-        console.log('win')
-        return 'win'
+        
+        winMessage()
     }
 
     else if(firstColumn.toString() === losingCombo ||
     secondColumn.toString() === losingCombo ||
     thirdColumn.toString() === losingCombo) {
-        console.log('loss')
-        return 'loss'
+        
+        lossMessage()
     }
 }
 
@@ -127,13 +136,12 @@ function checkDiagonals(board) {
 
     if(firstDiagonal.toString() === winningCombo ||
     secondDiagonal.toString() === winningCombo) {
-        console.log('win')
-        return 'win'
+        winMessage()
     }
     else if(firstDiagonal.toString() === losingCombo ||
     secondDiagonal.toString() === losingCombo) {
-        console.log('win')
-        return 'win'
+        
+        lossMessage()
     }
 }
 
@@ -151,58 +159,5 @@ function checkForWins() {
         }
         
     }
-    // console.log(board)
     checkBoard(board)
 }
-
-
-// const xWinningCombos = [
-//     [1,1,1,0,0,0,0,0,0],
-//     [0,0,0,1,1,1,0,0,0],
-//     [0,0,0,0,0,0,1,1,1],
-//     [1,0,0,1,0,0,1,0,0],
-//     [0,1,0,0,1,0,0,1,0],
-//     [0,0,1,0,0,1,0,0,1],
-//     [1,0,0,0,1,0,0,0,1],
-//     [0,0,1,0,1,0,1,0,0]
-// ]
-
-// const oWinningCombos = [
-//     [0,0,0,1,1,1,1,1,1],
-//     [1,1,1,0,0,0,1,1,1],
-//     [1,1,1,1,1,1,0,0,0],
-//     [0,1,1,0,1,1,0,1,1],
-//     [1,0,1,1,0,1,1,0,1],
-//     [1,1,0,1,1,0,1,1,0],
-//     [0,1,1,1,0,1,1,1,0],
-//     [1,1,0,1,0,1,0,1,1]
-// ]
-
-// function checkBoard(board) {
-    
-// }
-
-    
-
-// function gameState() {
-
-//     const boxes = document.querySelectorAll('.box')
-//     boxes.forEach(box => box.addEventListener('click', markBox))
-//     return {boxes}
-// }
-
-
-// function markBox(e) {
-
-    
-//     if(e.target.classList.contains('x-mark')) {
-//         e.target.textContent = 'O'
-//         e.target.classList.add('y-mark')
-//     }
-
-//     else {
-//         e.target.textContent = 'X'
-//         e.target.classList.add('x-mark')
-//     }
-    
-// }
