@@ -14,6 +14,28 @@ body {
     /* background-color: black; */
 }
 
+.modal {
+    height:100vh;
+    width:100vw;
+    background-color:rgba(0,0,0,0.7);
+    display:flex;
+    align-items: center;
+    justify-items: center;
+    position:fixed;
+}
+
+.modal-text {
+    color:white;
+    height:100%;
+    width:100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size:4rem;
+    /* position:fixed; */
+    border:1px solid white;
+}
+
 .container {
     height:50vh;
     width:30vw;

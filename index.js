@@ -69,19 +69,15 @@ const winningComboArray = []
 
 function checkBoard(board) {
 
-    checkForRows(board)
+    checkRows(board)
     checkColumns(board)
     checkDiagonals(board)
-
-    // if(checkForRows || checkForColumns || checkForDiagonals) {
-    //     console.log('You Win')
-    // }
 }
 
 let winningCombo = '1,1,1'
 let losingCombo = '0,0,0'
 
-function checkForRows(board) {
+function checkRows(board) {
     let firstRow = [board[0],board[1],board[2]]
     let secondRow = [board[3],board[4],board[5]]
     let thirdRow = [board[6],board[7],board[8]]
@@ -89,8 +85,12 @@ function checkForRows(board) {
     if(firstRow.toString() === winningCombo ||
     secondRow.toString() === winningCombo ||
     thirdRow.toString() === winningCombo ) {
-        console.log('win')
-        return 'win'
+
+        const modal = document.querySelector('.modal')
+        const modal_text = document.querySelector('.modal-text')
+        modal.setAttribute('style','display:block;')
+        console.log(modal_text)
+        modal_text.textContent = 'YOU WIN!'
     } 
 
     else if(firstRow.toString() === losingCombo ||
