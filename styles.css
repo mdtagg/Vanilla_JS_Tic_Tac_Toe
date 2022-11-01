@@ -54,6 +54,7 @@ body {
     width:30vw;
     display:grid;
     grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
 }
 
 .cornerBorder {
@@ -76,4 +77,9 @@ body {
     display:flex;
     align-items: center;
     justify-content: center;
+    cursor:pointer;
+}
+
+.box:hover {
+    background-color: rgba(0,0,0,0.1);
 }

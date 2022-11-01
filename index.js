@@ -38,11 +38,6 @@ const playerFactory = (sign) => {
 
 //flipping turns
 
-let xTurn = true
-
-
-// let oTurn = false
-
 const boxes = document.querySelectorAll('.box')
 boxes.forEach(box => box.addEventListener('click', (e) => {
 
@@ -50,7 +45,7 @@ boxes.forEach(box => box.addEventListener('click', (e) => {
         return
     }
 
-    else if(xTurn === true) {
+    else  {
         e.target.textContent = 'X'
         noChoiceList.push(parseInt(e.target.dataset.attribute))
         aiChoice()
@@ -85,8 +80,6 @@ function aiChoice() {
     }
 }
 
-
-
 //checking for wins loss draw
 
 const winningComboArray = []
@@ -118,8 +111,6 @@ function tieMessage() {
 
 let winningCombo = '1,1,1'
 let losingCombo = '0,0,0'
-
-
 
 function checkRows(board) {
     let firstRow = [board[0],board[1],board[2]]
@@ -205,6 +196,5 @@ function restartGame() {
     modal.setAttribute('style','display:none;')
     xTurn = true
     noChoiceList = []
-    // oTurn = false
 }
 
