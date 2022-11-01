@@ -4,17 +4,17 @@ const createGameBoard = (() => {
 
     const container = document.querySelector('.container')
 
-    for(let i = 1;i < 10;i++) {
+    for(let i = 0;i < 9;i++) {
         const box = document.createElement('div')
         box.classList.add('box')
         box.setAttribute('data-attribute',`${i}`)
-        if(i < 3 || i >= 4 && i < 6) {
+        if(i < 2 || i >= 3 && i < 5) {
             box.classList.add('cornerBorder')
         }
-        else if (i === 3 || i === 6) {
+        else if (i === 2 || i === 5) {
             box.classList.add('bottomBorder')
         }
-        else if (i < 9) {
+        else if (i < 8) {
             box.classList.add('borderRight')
         }
         container.appendChild(box)
@@ -36,12 +36,12 @@ const playerFactory = (sign) => {
 
 }
 
-
-
 //flipping turns
 
 let xTurn = true
-let oTurn = false
+
+
+// let oTurn = false
 
 const boxes = document.querySelectorAll('.box')
 boxes.forEach(box => box.addEventListener('click', (e) => {
@@ -52,29 +52,39 @@ boxes.forEach(box => box.addEventListener('click', (e) => {
 
     else if(xTurn === true) {
         e.target.textContent = 'X'
-        xTurn = false
-        oTurn = true
         noChoiceList.push(parseInt(e.target.dataset.attribute))
-        console.log(noChoiceList)
-        aiChoice(e)
+        aiChoice()
     }
-    
-    // else {
-        
-    //     e.target.textContent = 'O'
-    //     oTurn = false
-    //     xTurn = true
-    // }
+
     checkForWins()
 }))
 
 // ai 
 let noChoiceList = []
 
-function aiChoice(e) {
-    let randomNumber = Math.floor(Math.random() * 10)
-    console.log(randomNumber)
+function aiChoice() {
+    let randomNumber = Math.floor(Math.random() * 9)
+    
+    for(let i = 0;i < noChoiceList.length;i++) {
+
+        if(noChoiceList.includes(randomNumber)) {
+            aiChoice()
+            return 
+        }
+        else if(noChoiceList.length === 9) {
+            tieMessage()
+        }
+        else {
+            console.log(noChoiceList)
+            console.log(randomNumber)
+            boxes[randomNumber].textContent = 'O'
+            noChoiceList.push(randomNumber)
+            return
+        }
+    }
 }
+
+
 
 //checking for wins loss draw
 
@@ -193,6 +203,7 @@ function restartGame() {
     boxes.forEach(box => box.textContent = "")
     modal.setAttribute('style','display:none;')
     xTurn = true
-    oTurn = false
+    noChoiceList = []
+    // oTurn = false
 }
 
