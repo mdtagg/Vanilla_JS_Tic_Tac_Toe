@@ -65,45 +65,77 @@ boxes.forEach(box => box.addEventListener('click', (e) => {
 
 //checking for wins loss draw
 
-// const winningComboArray = []
+const winningComboArray = []
 
 function checkBoard(board) {
 
     checkForRows(board)
-    checkForColumns(board)
-    checkForDiagonals(board)
+    checkColumns(board)
+    checkDiagonals(board)
 
-    if(checkForRows || checkForColumns || checkForDiagonals) {
-        console.log('You Win')
+    // if(checkForRows || checkForColumns || checkForDiagonals) {
+    //     console.log('You Win')
+    // }
+}
+
+let winningCombo = '1,1,1'
+let losingCombo = '0,0,0'
+
+function checkForRows(board) {
+    let firstRow = [board[0],board[1],board[2]]
+    let secondRow = [board[3],board[4],board[5]]
+    let thirdRow = [board[6],board[7],board[8]]
+    
+    if(firstRow.toString() === winningCombo ||
+    secondRow.toString() === winningCombo ||
+    thirdRow.toString() === winningCombo ) {
+        console.log('win')
+        return 'win'
+    } 
+
+    else if(firstRow.toString() === losingCombo ||
+    secondRow.toString() === losingCombo ||
+    thirdRow.toString() === losingCombo ) {
+        console.log('loss')
+        return 'loss'
     }
 }
 
-function checkForRows(board) {
-    
+function checkColumns(board) {
+    let firstColumn = [board[0],board[3],board[6]]
+    let secondColumn = [board[1],board[4],board[7]]
+    let thirdColumn = [board[2],board[5],board[8]]
+
+    if(firstColumn.toString() === winningCombo ||
+    secondColumn.toString() === winningCombo ||
+    thirdColumn.toString() === winningCombo) {
+        console.log('win')
+        return 'win'
+    }
+
+    else if(firstColumn.toString() === losingCombo ||
+    secondColumn.toString() === losingCombo ||
+    thirdColumn.toString() === losingCombo) {
+        console.log('loss')
+        return 'loss'
+    }
 }
 
+function checkDiagonals(board) {
+    let firstDiagonal = [board[0],board[4],board[8]]
+    let secondDiagonal = [board[2],board[4],board[6]]
 
-const xWinningCombos = [
-    [1,1,1,0,0,0,0,0,0],
-    [0,0,0,1,1,1,0,0,0],
-    [0,0,0,0,0,0,1,1,1],
-    [1,0,0,1,0,0,1,0,0],
-    [0,1,0,0,1,0,0,1,0],
-    [0,0,1,0,0,1,0,0,1],
-    [1,0,0,0,1,0,0,0,1],
-    [0,0,1,0,1,0,1,0,0]
-]
-
-const oWinningCombos = [
-    [0,0,0,1,1,1,1,1,1],
-    [1,1,1,0,0,0,1,1,1],
-    [1,1,1,1,1,1,0,0,0],
-    [0,1,1,0,1,1,0,1,1],
-    [1,0,1,1,0,1,1,0,1],
-    [1,1,0,1,1,0,1,1,0],
-    [0,1,1,1,0,1,1,1,0],
-    [1,1,0,1,0,1,0,1,1]
-]
+    if(firstDiagonal.toString() === winningCombo ||
+    secondDiagonal.toString() === winningCombo) {
+        console.log('win')
+        return 'win'
+    }
+    else if(firstDiagonal.toString() === losingCombo ||
+    secondDiagonal.toString() === losingCombo) {
+        console.log('win')
+        return 'win'
+    }
+}
 
 function checkForWins() {
     let board = []
@@ -119,9 +151,32 @@ function checkForWins() {
         }
         
     }
-    console.log(board)
+    // console.log(board)
     checkBoard(board)
 }
+
+
+// const xWinningCombos = [
+//     [1,1,1,0,0,0,0,0,0],
+//     [0,0,0,1,1,1,0,0,0],
+//     [0,0,0,0,0,0,1,1,1],
+//     [1,0,0,1,0,0,1,0,0],
+//     [0,1,0,0,1,0,0,1,0],
+//     [0,0,1,0,0,1,0,0,1],
+//     [1,0,0,0,1,0,0,0,1],
+//     [0,0,1,0,1,0,1,0,0]
+// ]
+
+// const oWinningCombos = [
+//     [0,0,0,1,1,1,1,1,1],
+//     [1,1,1,0,0,0,1,1,1],
+//     [1,1,1,1,1,1,0,0,0],
+//     [0,1,1,0,1,1,0,1,1],
+//     [1,0,1,1,0,1,1,0,1],
+//     [1,1,0,1,1,0,1,1,0],
+//     [0,1,1,1,0,1,1,1,0],
+//     [1,1,0,1,0,1,0,1,1]
+// ]
 
 // function checkBoard(board) {
     
