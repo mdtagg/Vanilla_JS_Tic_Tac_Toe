@@ -71,3 +71,11 @@ body {
     border-right:5px solid rgba(255,0,204);
 
 }
+
+.box {
+    font-size:2rem;
+    color:rebeccapurple;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
