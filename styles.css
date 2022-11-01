@@ -9,9 +9,16 @@ body {
     height:100vh;
     width:100vw;
     display:flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background-color: black; */
+    gap:50px;
+    background-color: black;
+    font-family: 'Neonderthaw', cursive;
+}
+
+h1 {
+    font-family: 'Neonderthaw', cursive;
 }
 
 .modal {
@@ -33,6 +40,7 @@ body {
     align-items: flex-end;
     justify-content: center;
     font-size:5rem;
+    font-family: 'Pacifico', cursive;
 }
 
 .restart-container {
@@ -49,37 +57,50 @@ body {
     display:block;
 }
 
+.title {
+    color:white;
+    font-size: 2rem;
+    text-shadow: 0px 0px 20px;
+    font-weight: 200;
+    /* font-family:'Warnes', cursive; */
+}
+
 .container {
     height:50vh;
     width:30vw;
     display:grid;
-    grid-template-columns: repeat(3,1fr);
-    grid-template-rows: repeat(3,1fr);
+    grid-template-columns: repeat(3,1.5fr);
+    grid-template-rows: repeat(3,1.5fr);
+    box-shadow: 0px 0px 50px greenyellow;
 }
 
 .cornerBorder {
-    border-right:5px solid rgba(255,0,204);
-    border-bottom:5px solid rgba(255,0,204);
+    border-right:5px solid greenyellow;
+    border-bottom:5px solid greenyellow;
 }
 
 .bottomBorder {
-    border-bottom:5px solid rgba(255,0,204);
+    border-bottom:5px solid greenyellow;
 }
 
 .borderRight {
-    border-right:5px solid rgba(255,0,204);
+    border-right:5px solid greenyellow;
 
 }
 
 .box {
     font-size:2rem;
-    color:rebeccapurple;
+    background-color: black;
+    color:white;
     display:flex;
     align-items: center;
     justify-content: center;
     cursor:pointer;
+    font-family: 'Pacifico', cursive;
 }
 
 .box:hover {
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(154,205,50,0.3);
 }
+
+/* rgba(255,0,204) */
