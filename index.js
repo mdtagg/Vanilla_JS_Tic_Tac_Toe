@@ -19,11 +19,11 @@ const createGameBoard = (() => {
         }
         container.appendChild(box)
     }
-    
 })()
 
 
 //flipping turns
+
 
 const boxes = document.querySelectorAll('.box')
 boxes.forEach(box => box.addEventListener('click', playerChoice))
@@ -39,6 +39,23 @@ function playerChoice(e) {
     }
     checkForWins()
 }
+
+
+
+// const boxes = document.querySelectorAll('.box')
+// boxes.forEach(box => box.addEventListener('click', playerChoice))
+
+// function playerChoice(e) {
+//     if(e.target.textContent === 'X' || e.target.textContent === 'O') {
+//         return
+//     }
+//     else  {
+//         e.target.textContent = 'X'
+//         noChoiceList.push(parseInt(e.target.dataset.attribute))
+//         aiChoice()
+//     }
+//     checkForWins()
+// }
 
 // ai 
 
@@ -66,17 +83,6 @@ function aiChoice() {
     }
 }
 
-//checking for wins loss draw
-
-// const gameState = () => {
-//     const winningComboArray = [];
-//     const checkBoard = (board) => {
-//         checkRows(board)
-//         checkColumns(board)
-//         checkDiagonals(board)
-//     }
-
-
 const winningComboArray = []
 
 function checkBoard(board) {
@@ -86,15 +92,88 @@ function checkBoard(board) {
     checkDiagonals(board)
 }
 
-const endMessageCreator = (message) => {
+const gameBoardObject = () => {
+
     const modal = document.querySelector('.modal')
     const modal_text = document.querySelector('.modal-text')
+    const restart = document.querySelector('.restart-button')
+    restart.addEventListener('click', restartGame)
 
-    const createMessage = () => {
-        modal.setAttribute('style','display:block;')
-        modal_text.textContent = message
+    const endMessageCreator = (message) => {
+
+        const createMessage = () => {
+            modal.setAttribute('style','display:block;')
+            modal_text.textContent = message
+        }
+        return { createMessage }
     }
-    return { createMessage }
+
+    const restartObject = () => {
+    
+        const restartGame = () => {
+            boxes.forEach(box => box.textContent = "")
+            modal.setAttribute('style','display:none;')
+            xTurn = true
+            noChoiceList = []
+        }
+        return { restartGame }
+    }
+    return { endMessageCreator }
+}
+
+
+// const restartObject = (() => {
+//     const restart = document.querySelector('.restart-button')
+//     restart.addEventListener('click', restartGame)
+// })()
+
+
+
+
+// GOOD OBJECT
+
+// const endMessageCreator = (message) => {
+    // const modal = document.querySelector('.modal')
+    // const modal_text = document.querySelector('.modal-text')
+
+//     const createMessage = () => {
+//         modal.setAttribute('style','display:block;')
+//         modal_text.textContent = message
+//     }
+//     return { createMessage }
+// }
+
+
+
+
+
+
+//
+
+// const gameBoard = () => {
+
+//     let board = []
+//     const addMark = () => {
+
+//     }
+
+// }
+
+function checkForWins() {
+    let board = []
+    for(let i = 0;i < boxes.length;i++) {
+        if(boxes[i].textContent === 'X') {
+            board.push(1)
+        }
+        else if(boxes[i].textContent === 'O') {
+            board.push(0)
+        }
+        else{
+            board.push('')
+        }
+        
+    }
+    checkBoard(board)
 }
 
 let winningCombo = '1,1,1'
@@ -110,7 +189,7 @@ function checkRows(board) {
     thirdRow.toString() === winningCombo ) {
 
         // winMessage()
-        endMessageCreator('YOU WIN!').createMessage()
+        gameBoardObject.endMessageCreator('YOU WIN!').createMessage()
     } 
 
     else if(firstRow.toString() === losingCombo ||
@@ -137,7 +216,7 @@ function checkColumns(board) {
     thirdColumn.toString() === winningCombo) {
         
         // winMessage()
-        endMessageCreator('YOU WIN!').createMessage()
+        gameBoardObject.endMessageCreator('YOU WIN!').createMessage()
     }
 
     else if(firstColumn.toString() === losingCombo ||
@@ -156,7 +235,7 @@ function checkDiagonals(board) {
     if(firstDiagonal.toString() === winningCombo ||
     secondDiagonal.toString() === winningCombo) {
         // winMessage()
-        endMessageCreator('YOU WIN!').createMessage()
+        gameBoardObject.endMessageCreator('YOU WIN!').createMessage()
     }
     else if(firstDiagonal.toString() === losingCombo ||
     secondDiagonal.toString() === losingCombo) {
@@ -166,32 +245,16 @@ function checkDiagonals(board) {
     }
 }
 
-function checkForWins() {
-    let board = []
-    for(let i = 0;i < boxes.length;i++) {
-        if(boxes[i].textContent === 'X') {
-            board.push(1)
-        }
-        else if(boxes[i].textContent === 'O') {
-            board.push(0)
-        }
-        else{
-            board.push('')
-        }
-        
-    }
-    checkBoard(board)
-}
 
-const restart = document.querySelector('.restart-button')
-restart.addEventListener('click', restartGame)
+//     function restartGame() {
+//         boxes.forEach(box => box.textContent = "")
+//         modal.setAttribute('style','display:none;')
+//         xTurn = true
+//         noChoiceList = []
+//     }
+// }
+// )
 
-function restartGame() {
-    boxes.forEach(box => box.textContent = "")
-    modal.setAttribute('style','display:none;')
-    xTurn = true
-    noChoiceList = []
-}
 
 // code graveyard
 
