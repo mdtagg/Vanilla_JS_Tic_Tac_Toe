@@ -83,6 +83,17 @@ function aiChoice() {
     }
 }
 
+//checking for wins loss draw
+
+// const gameState = () => {
+//     const winningComboArray = [];
+//     const checkBoard = (board) => {
+//         checkRows(board)
+//         checkColumns(board)
+//         checkDiagonals(board)
+//     }
+
+
 const winningComboArray = []
 
 function checkBoard(board) {
@@ -92,21 +103,16 @@ function checkBoard(board) {
     checkDiagonals(board)
 }
 
-const gameBoardObject = () => {
-
+const endMessageCreator = (message) => {
     const modal = document.querySelector('.modal')
     const modal_text = document.querySelector('.modal-text')
-    const restart = document.querySelector('.restart-button')
-    restart.addEventListener('click', restartGame)
 
-    const endMessageCreator = (message) => {
-
-        const createMessage = () => {
-            modal.setAttribute('style','display:block;')
-            modal_text.textContent = message
-        }
-        return { createMessage }
+    const createMessage = () => {
+        modal.setAttribute('style','display:block;')
+        modal_text.textContent = message
     }
+    return { createMessage }
+}
 
     const restartObject = () => {
     
@@ -189,20 +195,18 @@ function checkRows(board) {
     thirdRow.toString() === winningCombo ) {
 
         // winMessage()
-        gameBoardObject.endMessageCreator('YOU WIN!').createMessage()
+        endMessageCreator('YOU WIN!').createMessage()
     } 
 
     else if(firstRow.toString() === losingCombo ||
     secondRow.toString() === losingCombo ||
     thirdRow.toString() === losingCombo ) {
         
-        // lossMessage()
-        endMessageCreator('YOU LOSE!').createMessage()
+        lossMessage()
     }
 
     else if(!board.includes('')) {
-        // tieMessage()
-        endMessageCreator('ITS A DRAW!').createMessage()
+        tieMessage()
     }
 }
 
@@ -216,15 +220,14 @@ function checkColumns(board) {
     thirdColumn.toString() === winningCombo) {
         
         // winMessage()
-        gameBoardObject.endMessageCreator('YOU WIN!').createMessage()
+        endMessageCreator('YOU WIN!').createMessage()
     }
 
     else if(firstColumn.toString() === losingCombo ||
     secondColumn.toString() === losingCombo ||
     thirdColumn.toString() === losingCombo) {
         
-        // lossMessage()
-        endMessageCreator('YOU LOSE!').createMessage()
+        lossMessage()
     }
 }
 
@@ -235,13 +238,12 @@ function checkDiagonals(board) {
     if(firstDiagonal.toString() === winningCombo ||
     secondDiagonal.toString() === winningCombo) {
         // winMessage()
-        gameBoardObject.endMessageCreator('YOU WIN!').createMessage()
+        endMessageCreator('YOU WIN!').createMessage()
     }
     else if(firstDiagonal.toString() === losingCombo ||
     secondDiagonal.toString() === losingCombo) {
         
-        // lossMessage()
-        endMessageCreator('YOU LOSE!').createMessage()
+        lossMessage()
     }
 }
 
@@ -255,23 +257,3 @@ function checkDiagonals(board) {
 // }
 // )
 
-
-// code graveyard
-
-// const modal = document.querySelector('.modal')
-// const modal_text = document.querySelector('.modal-text')
-
-// function winMessage() {
-//     modal.setAttribute('style','display:block;')
-//     modal_text.textContent = 'YOU WIN!'
-// }
-
-// function lossMessage() {
-//     modal.setAttribute('style','display:block;')
-//     modal_text.textContent = 'YOU LOSE!'
-// }
-
-// function tieMessage() {
-//     modal.setAttribute('style','display:block;')
-//     modal_text.textContent = 'ITS A DRAW!'
-// }
