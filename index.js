@@ -3,6 +3,14 @@
 const createGameBoard = (() => {
 
     const container = document.querySelector('.container')
+    const modal = document.querySelector('.modal')
+
+    const restartGame = () => {
+        boxes.forEach(box => box.textContent = "")
+        modal.setAttribute('style','display:none;')
+        xTurn = true
+        noChoiceList = []
+    }
 
     for(let i = 0;i < 9;i++) {
         const box = document.createElement('div')
@@ -19,6 +27,9 @@ const createGameBoard = (() => {
         }
         container.appendChild(box)
     }
+    const restart = document.querySelector('.restart-button')
+    restart.addEventListener('click', restartGame)
+
 })()
 
 
@@ -83,17 +94,6 @@ function aiChoice() {
     }
 }
 
-//checking for wins loss draw
-
-// const gameState = () => {
-//     const winningComboArray = [];
-//     const checkBoard = (board) => {
-//         checkRows(board)
-//         checkColumns(board)
-//         checkDiagonals(board)
-//     }
-
-
 const winningComboArray = []
 
 function checkBoard(board) {
@@ -103,67 +103,46 @@ function checkBoard(board) {
     checkDiagonals(board)
 }
 
-const endMessageCreator = (message) => {
+const displayController = () => {
+
+}
+
+
+
+
+const endMessageCreator = () => {
+
     const modal = document.querySelector('.modal')
     const modal_text = document.querySelector('.modal-text')
+    
 
-    const createMessage = () => {
+    const createEndMessage = (message) => {
         modal.setAttribute('style','display:block;')
         modal_text.textContent = message
     }
-    return { createMessage }
-}
 
-    const restartObject = () => {
-    
-        const restartGame = () => {
-            boxes.forEach(box => box.textContent = "")
-            modal.setAttribute('style','display:none;')
-            xTurn = true
-            noChoiceList = []
-        }
-        return { restartGame }
+    const restartGame = () => {
+        boxes.forEach(box => box.textContent = "")
+        modal.setAttribute('style','display:none;')
+        xTurn = true
+        noChoiceList = []
     }
-    return { endMessageCreator }
+
+    return { createEndMessage, restartGame}
+
 }
 
 
-// const restartObject = (() => {
-//     const restart = document.querySelector('.restart-button')
-//     restart.addEventListener('click', restartGame)
-// })()
+const restartGame = () => {
+    boxes.forEach(box => box.textContent = "")
+    modal.setAttribute('style','display:none;')
+    xTurn = true
+    noChoiceList = []
+    return { restartGame }
+}
 
 
 
-
-// GOOD OBJECT
-
-// const endMessageCreator = (message) => {
-    // const modal = document.querySelector('.modal')
-    // const modal_text = document.querySelector('.modal-text')
-
-//     const createMessage = () => {
-//         modal.setAttribute('style','display:block;')
-//         modal_text.textContent = message
-//     }
-//     return { createMessage }
-// }
-
-
-
-
-
-
-//
-
-// const gameBoard = () => {
-
-//     let board = []
-//     const addMark = () => {
-
-//     }
-
-// }
 
 function checkForWins() {
     let board = []
@@ -195,7 +174,7 @@ function checkRows(board) {
     thirdRow.toString() === winningCombo ) {
 
         // winMessage()
-        endMessageCreator('YOU WIN!').createMessage()
+        endMessageCreator().createEndMessage('YOU WIN!')
     } 
 
     else if(firstRow.toString() === losingCombo ||
@@ -220,7 +199,7 @@ function checkColumns(board) {
     thirdColumn.toString() === winningCombo) {
         
         // winMessage()
-        endMessageCreator('YOU WIN!').createMessage()
+        endMessageCreator.createEndMessage('YOU WIN!')
     }
 
     else if(firstColumn.toString() === losingCombo ||
@@ -238,7 +217,7 @@ function checkDiagonals(board) {
     if(firstDiagonal.toString() === winningCombo ||
     secondDiagonal.toString() === winningCombo) {
         // winMessage()
-        endMessageCreator('YOU WIN!').createMessage()
+        endMessageCreator('YOU WIN!').createEndMessage()
     }
     else if(firstDiagonal.toString() === losingCombo ||
     secondDiagonal.toString() === losingCombo) {
@@ -246,6 +225,20 @@ function checkDiagonals(board) {
         lossMessage()
     }
 }
+
+
+// GOOD OBJECT
+
+// const endMessageCreator = (message) => {
+    // const modal = document.querySelector('.modal')
+    // const modal_text = document.querySelector('.modal-text')
+
+//     const createMessage = () => {
+//         modal.setAttribute('style','display:block;')
+//         modal_text.textContent = message
+//     }
+//     return { createMessage }
+// }
 
 
 //     function restartGame() {
