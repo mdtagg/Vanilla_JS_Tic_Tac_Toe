@@ -1,9 +1,90 @@
 
 
-const createGameBoard = (() => {
+const gameBoard = (() => {
+    
+})()
 
-    const container = document.querySelector('.container')
+
+const displayController = (() => {
+
+    let noChoiceList = []
+
+    const playerChoice = (e) => {
+        if(e.target.textContent === 'X' || e.target.textContent === 'O') {
+            return
+        }
+        else  {
+            e.target.textContent = 'X'
+            noChoiceList.push(parseInt(e.target.dataset.attribute))
+            // aiChoice()
+        }
+        // checkForWins()
+    }
+
+    const aiChoice = () => {
+        let randomNumber = Math.floor(Math.random() * 9)
+        
+        for(let i = 0;i < noChoiceList.length;i++) {
+    
+            // if(noChoiceList.includes(randomNumber) && noChoiceList.length === 9) {
+            //     checkForWins()
+            // }
+            if(noChoiceList.includes(randomNumber)) {
+                aiChoice()
+                return 
+            }
+            else {
+                // boxes[randomNumber].textContent = 'O'
+                noChoiceList.push(randomNumber)
+                gameFlow.setAiChoice(randomNumber)
+                return
+            }
+        }
+    }
+
+    // function checkForWins() {
+    //     let board = []
+    //     for(let i = 0;i < boxes.length;i++) {
+    //         if(boxes[i].textContent === 'X') {
+    //             board.push(1)
+    //         }
+    //         else if(boxes[i].textContent === 'O') {
+    //             board.push(0)
+    //         }
+    //         else{
+    //             board.push('')
+    //         }
+            
+    //     }
+    //     checkBoard(board)
+    // }
+    
+    return { playerChoice,aiChoice }
+
+})()
+
+const gameFlow = (() => {
+    const boxes = document.querySelectorAll('.box')
+    boxes.forEach(box => 
+        {
+        box.addEventListener('click', displayController.playerChoice),
+        box.addEventListener('click', displayController.aiChoice)
+    }
+    )
+
+    const setAiChoice = (randomNumber) => {
+        boxes[randomNumber].textContent = 'O'
+    }
+
+    return { setAiChoice }
+})()
+
+
+
+const modalObject = (() => {
+     
     const modal = document.querySelector('.modal')
+    const restart = document.querySelector('.restart-button')
 
     const restartGame = () => {
         boxes.forEach(box => box.textContent = "")
@@ -11,47 +92,12 @@ const createGameBoard = (() => {
         xTurn = true
         noChoiceList = []
     }
-
-    for(let i = 0;i < 9;i++) {
-        const box = document.createElement('div')
-        box.classList.add('box')
-        box.setAttribute('data-attribute',`${i}`)
-        if(i < 2 || i >= 3 && i < 5) {
-            box.classList.add('cornerBorder')
-        }
-        else if (i === 2 || i === 5) {
-            box.classList.add('bottomBorder')
-        }
-        else if (i < 8) {
-            box.classList.add('borderRight')
-        }
-        container.appendChild(box)
-    }
-    const restart = document.querySelector('.restart-button')
+    
     restart.addEventListener('click', restartGame)
 
 })()
 
-
 //flipping turns
-
-
-const boxes = document.querySelectorAll('.box')
-boxes.forEach(box => box.addEventListener('click', playerChoice))
-
-function playerChoice(e) {
-    if(e.target.textContent === 'X' || e.target.textContent === 'O') {
-        return
-    }
-    else  {
-        e.target.textContent = 'X'
-        noChoiceList.push(parseInt(e.target.dataset.attribute))
-        aiChoice()
-    }
-    checkForWins()
-}
-
-
 
 // const boxes = document.querySelectorAll('.box')
 // boxes.forEach(box => box.addEventListener('click', playerChoice))
@@ -63,36 +109,37 @@ function playerChoice(e) {
 //     else  {
 //         e.target.textContent = 'X'
 //         noChoiceList.push(parseInt(e.target.dataset.attribute))
-//         aiChoice()
+//         createGameBoard.aiChoice()
+//         // aiChoice()
 //     }
 //     checkForWins()
 // }
 
 // ai 
 
-let noChoiceList = []
+// let noChoiceList = []
 
-function aiChoice() {
-    let randomNumber = Math.floor(Math.random() * 9)
+// function aiChoice() {
+//     let randomNumber = Math.floor(Math.random() * 9)
     
-    for(let i = 0;i < noChoiceList.length;i++) {
+//     for(let i = 0;i < noChoiceList.length;i++) {
 
-        if(noChoiceList.includes(randomNumber) && noChoiceList.length === 9) {
-            checkForWins()
-        }
-        else if(noChoiceList.includes(randomNumber)) {
-            aiChoice()
-            return 
-        }
-        else {
-            console.log(noChoiceList)
-            console.log(randomNumber)
-            boxes[randomNumber].textContent = 'O'
-            noChoiceList.push(randomNumber)
-            return
-        }
-    }
-}
+//         if(noChoiceList.includes(randomNumber) && noChoiceList.length === 9) {
+//             checkForWins()
+//         }
+//         else if(noChoiceList.includes(randomNumber)) {
+//             aiChoice()
+//             return 
+//         }
+//         else {
+//             console.log(noChoiceList)
+//             console.log(randomNumber)
+//             boxes[randomNumber].textContent = 'O'
+//             noChoiceList.push(randomNumber)
+//             return
+//         }
+//     }
+// }
 
 const winningComboArray = []
 
@@ -102,13 +149,6 @@ function checkBoard(board) {
     checkColumns(board)
     checkDiagonals(board)
 }
-
-const displayController = () => {
-
-}
-
-
-
 
 const endMessageCreator = () => {
 
@@ -132,34 +172,22 @@ const endMessageCreator = () => {
 
 }
 
-
-const restartGame = () => {
-    boxes.forEach(box => box.textContent = "")
-    modal.setAttribute('style','display:none;')
-    xTurn = true
-    noChoiceList = []
-    return { restartGame }
-}
-
-
-
-
-function checkForWins() {
-    let board = []
-    for(let i = 0;i < boxes.length;i++) {
-        if(boxes[i].textContent === 'X') {
-            board.push(1)
-        }
-        else if(boxes[i].textContent === 'O') {
-            board.push(0)
-        }
-        else{
-            board.push('')
-        }
+// function checkForWins() {
+//     let board = []
+//     for(let i = 0;i < boxes.length;i++) {
+//         if(boxes[i].textContent === 'X') {
+//             board.push(1)
+//         }
+//         else if(boxes[i].textContent === 'O') {
+//             board.push(0)
+//         }
+//         else{
+//             board.push('')
+//         }
         
-    }
-    checkBoard(board)
-}
+//     }
+//     checkBoard(board)
+// }
 
 let winningCombo = '1,1,1'
 let losingCombo = '0,0,0'
@@ -249,4 +277,21 @@ function checkDiagonals(board) {
 //     }
 // }
 // )
+
+
+// for(let i = 0;i < 9;i++) {
+    //     const box = document.createElement('div')
+    //     box.classList.add('box')
+    //     box.setAttribute('data-attribute',`${i}`)
+    //     if(i < 2 || i >= 3 && i < 5) {
+    //         box.classList.add('cornerBorder')
+    //     }
+    //     else if (i === 2 || i === 5) {
+    //         box.classList.add('bottomBorder')
+    //     }
+    //     else if (i < 8) {
+    //         box.classList.add('borderRight')
+    //     }
+    //     container.appendChild(box)
+    // }
 
