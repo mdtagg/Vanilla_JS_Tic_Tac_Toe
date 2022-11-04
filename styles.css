@@ -178,3 +178,11 @@ input, label {
 .box:hover {
     background-color: rgba(154,205,50,0.3);
 }
+
+.player-container {
+    display:flex;
+}
+
+.player-one-span,.player-two-span {
+    margin-left:20px;
+}
