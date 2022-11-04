@@ -110,6 +110,9 @@ const checkForEndGame = (() => {
 
 const endMessageCreator = (() => {
 
+    const start_button = document.querySelector('.start-button')
+    const start_page = document.querySelector('.start-page')
+    const game_page = document.querySelector('.gamePage')
     const modal = document.querySelector('.modal')
     const modal_text = document.querySelector('.modal-text')
     const restart = document.querySelector('.restart-button')
@@ -124,7 +127,13 @@ const endMessageCreator = (() => {
         modal.setAttribute('style','display:none;')
         displayController.resetChoiceList() 
     }
+
+    const startGame = () => {
+        start_page.setAttribute('style','display:none;')
+        game_page.setAttribute('style','display:grid; grid-template-columns:1fr 1fr 1fr;')
+    }
     restart.addEventListener('click', restartGame)
+    start_button.addEventListener('click', startGame)
     return { createEndMessage, restartGame}
 })()
 

@@ -60,13 +60,41 @@ h1 {
     height:25px;
 }
 
-/* #computer-checkbox {
-    display:flex;
+/* .score {
+    border:1px solid white;
+    height:100px;
+    width:100%;
+    margin-top:50px;
 } */
 
 input, label {
     height:30px;
     width:400px;
+}
+
+.change-colors {
+    /* border:1px solid white; */
+}
+
+.game-panel {
+    /* border:1px solid white; */
+}
+
+.score {
+    /* border:1px solid white; */
+    color:white;
+    font-size:50px;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-left:50px;
+    color:greenyellow;
+}
+
+.score-title {
+    border-bottom:1px solid yellowgreen;
+    display:flex;
+    justify-content: center;
 }
 
 .modal {
