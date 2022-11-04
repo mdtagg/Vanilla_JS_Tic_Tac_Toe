@@ -13,6 +13,26 @@
     <title>Mike T's Tic Tac Toe</title>
 </head>
 <body>
+    <div class="start-page">
+        <div class="title">
+            Neon Tic Tac Toe
+        </div>
+        <div class="input-container">
+            <label for="playerOne">Player One: </label>
+            <input type="text" name="playerOne" id="playerOne">
+        </div>
+        <div class="input-container">
+            <label for="playerTwo">Player Two: </label>
+            <input type="text" name="playerTwo" id="playerTwo">
+        </div>
+        <div class="input-container" id="computer-checkbox">
+            <label for="computer">Play Against Computer: </label>
+            <input type="checkbox" id="computer" name="computer">
+        </div>
+        <div>
+            <button class="start-button">Start</button>
+        </div>
+    </div>
     <div class="modal" style="display:none;">
         <div class="modal-text">
             
@@ -23,10 +43,10 @@
             </button>
         </div>
     </div>
-    <div class="title">
+    <div class="title" style="display:none;">
         <h1>Neon Tic Tac Toe</h1>
     </div>
-    <div class="container">
+    <div class="container" style="display:none;">
         <div class="box cornerBorder" data-attribute="0"></div>
         <div class="box cornerBorder" data-attribute="1"></div>
         <div class="box bottomBorder" data-attribute="2"></div>
