@@ -7,6 +7,16 @@ const displayController = (() => {
         if(e.target.textContent === 'X' || e.target.textContent === 'O') {
             return
         }
+        else if(noChoiceList.length % 2 !== 0 && endMessageCreator.getPlayers()) {
+            e.target.textContent = 'O'
+            noChoiceList.push(parseInt(e.target.dataset.attribute))
+            checkForEndGame.checkWins()
+        }
+        else if(noChoiceList.length % 2 === 0 && endMessageCreator.getPlayers()) {
+            e.target.textContent = 'X'
+            noChoiceList.push(parseInt(e.target.dataset.attribute))
+            checkForEndGame.checkWins()
+        }
         else if(noChoiceList.length < 9) {
             e.target.textContent = 'X'
             noChoiceList.push(parseInt(e.target.dataset.attribute))
@@ -21,6 +31,11 @@ const displayController = (() => {
     }
 
     const aiChoice = () => {
+
+        if(endMessageCreator.getPlayers()) {
+            return
+        }
+
         let randomNumber = Math.floor(Math.random() * 9)
         
         for(let i = 0;i < noChoiceList.length;i++) {
@@ -140,22 +155,29 @@ const endMessageCreator = (() => {
     }
 
     const getPlayers = () => {
+        
         if(computer.checked && input_player_two.value !== "") {
             alert("Play against another player or the computer")
             game_page.setAttribute('style','display:none;')
             start_page.setAttribute('style','display:flex; flex-direction:column;')
         }
         else if(computer.checked) {
+            input_player_one.defaultValue = 'Player one'
+            score_player_one.textContent = input_player_one.value
             score_player_two.textContent = 'Computer'
         }else if(!computer.checked){
+            input_player_one.defaultValue = 'Player one'
+            input_player_two.defaultValue = 'Player two'
             score_player_one.textContent = input_player_one.value
             score_player_two.textContent = input_player_two.value
+            let noComputer = true
+            return noComputer
         }
     }
 
     restart.addEventListener('click', restartGame)
     start_button.addEventListener('click', startGame)
     start_button.addEventListener('click', getPlayers)
-    return { createEndMessage, restartGame}
+    return { createEndMessage, restartGame, getPlayers}
 })()
 
