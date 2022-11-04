@@ -116,6 +116,12 @@ const endMessageCreator = (() => {
     const modal = document.querySelector('.modal')
     const modal_text = document.querySelector('.modal-text')
     const restart = document.querySelector('.restart-button')
+
+    const score_player_one = document.querySelector('.player-one')
+    const input_player_one = document.getElementById('playerOne')
+    const score_player_two = document.querySelector('.player-two')
+    const input_player_two = document.getElementById('playerTwo')
+    const computer = document.getElementById('computer')
     
     const createEndMessage = (message) => {
         modal.setAttribute('style','display:block;')
@@ -132,8 +138,24 @@ const endMessageCreator = (() => {
         start_page.setAttribute('style','display:none;')
         game_page.setAttribute('style','display:grid; grid-template-columns:1fr 1fr 1fr;')
     }
+
+    const getPlayers = () => {
+        if(computer.checked && input_player_two.value !== "") {
+            alert("Play against another player or the computer")
+            game_page.setAttribute('style','display:none;')
+            start_page.setAttribute('style','display:flex; flex-direction:column;')
+        }
+        else if(computer.checked) {
+            score_player_two.textContent = 'Computer'
+        }else if(!computer.checked){
+            score_player_one.textContent = input_player_one.value
+            score_player_two.textContent = input_player_two.value
+        }
+    }
+
     restart.addEventListener('click', restartGame)
     start_button.addEventListener('click', startGame)
+    start_button.addEventListener('click', getPlayers)
     return { createEndMessage, restartGame}
 })()
 

@@ -86,7 +86,7 @@ input, label {
     font-size:50px;
     display:flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     margin-left:50px;
     color:greenyellow;
 }
