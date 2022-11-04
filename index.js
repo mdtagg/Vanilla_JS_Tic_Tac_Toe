@@ -2,28 +2,29 @@
 const displayController = (() => {
 
     let noChoiceList = []
-    let noChoiceListLength = noChoiceList.length
     const playerChoice = (e) => {
 
         if(e.target.textContent === 'X' || e.target.textContent === 'O') {
             return
-        }
-        else if(noChoiceList.length % 2 !== 0 && endMessageCreator.getPlayers()) {
-            e.target.textContent = 'O'
-            noChoiceList.push(parseInt(e.target.dataset.attribute))
-            checkForEndGame.checkWins(noChoiceList.length)
         }
         else if(noChoiceList.length % 2 === 0 && endMessageCreator.getPlayers()) {
             e.target.textContent = 'X'
             noChoiceList.push(parseInt(e.target.dataset.attribute))
             checkForEndGame.checkWins(noChoiceList.length)
         }
+        else if(noChoiceList.length % 2 !== 0 && endMessageCreator.getPlayers()) {
+            e.target.textContent = 'O'
+            noChoiceList.push(parseInt(e.target.dataset.attribute))
+            checkForEndGame.checkWins(noChoiceList.length)
+        }
         else if(noChoiceList.length < 9) {
             e.target.textContent = 'X'
             noChoiceList.push(parseInt(e.target.dataset.attribute))
+            // checkForEndGame.checkWins(noChoiceList.length)
+            // aiChoice(noChoiceList.length)
             return
         }
-        else if(noChoiceList.length >= 9){
+        else if(noChoiceList.length === 9){
             
             checkForEndGame.checkWins(noChoiceList.length)
             // noChoiceList = []
@@ -33,43 +34,44 @@ const displayController = (() => {
 
     const aiChoice = () => {
 
-        if(endMessageCreator.getPlayers()) {
+        if(endMessageCreator.getPlayers() || noChoiceList.length === 9) {
             return
-        }
-
-        let randomNumber = Math.floor(Math.random() * 9)
+        }else {
+            let randomNumber = Math.floor(Math.random() * 9)
         
-        for(let i = 0;i < noChoiceList.length;i++) {
-    
-            if(noChoiceList.includes(randomNumber) && noChoiceList.length < 9) {
-                aiChoice()
-                return 
-            }
-            else {
-                noChoiceList.push(randomNumber)
-                gameFlow.setAiChoice(randomNumber)
-                return
+            for(let i = 0;i < noChoiceList.length;i++) {
+        
+                if(noChoiceList.includes(randomNumber) && noChoiceList.length < 9) {
+                    aiChoice()
+                    return 
+                }
+                else if(noChoiceList.length < 9) {
+                    noChoiceList.push(randomNumber)
+                    gameFlow.setAiChoice(randomNumber)
+                    return
+                }
             }
         }
     }
     const resetChoiceList = () => {
         noChoiceList = []
     }
-    return { playerChoice,aiChoice,resetChoiceList }
+    return { playerChoice,aiChoice,resetChoiceList,noChoiceList }
 
 })()
 
 const gameFlow = (() => {
+
     const boxes = document.querySelectorAll('.box')
-    boxes.forEach(box => 
-        {
+    boxes.forEach(box => {
+        
         box.addEventListener('click', displayController.playerChoice),
         box.addEventListener('click', displayController.aiChoice)
-    })
+})
    
     const setAiChoice = (randomNumber) => {
         boxes[randomNumber].textContent = 'O'
-        checkForEndGame.checkWins()
+        checkForEndGame.checkWins(displayController.noChoiceList.length)
         return
     }
 
@@ -97,6 +99,9 @@ const checkForEndGame = (() => {
     const checkWins = (noChoiceListLength) => {
         console.log(noChoiceListLength)
         const boardMarks = gameFlow.createBoard()
+
+        let win = false;
+        let loss = false;
             
         let rowOne = boardMarks.slice(0,3).toString()
         let rowTwo = boardMarks.slice(3,6).toString()
@@ -114,16 +119,21 @@ const checkForEndGame = (() => {
 
         for(let i = 0;i < 9;i++) {
             if(testArray[i] === winningCombo) {
+                win = true
                 endMessageCreator.createEndMessage('YOU WIN!')
                 endMessageCreator.setScore('WIN')
                 endMessageCreator.getScore()
-
+                return
             }else if(testArray[i] === losingCombo) {
+                loss = true
                 endMessageCreator.createEndMessage('YOU LOSE!')
                 endMessageCreator.setScore('LOSS')
                 endMessageCreator.getScore()
-            }else if(noChoiceListLength === 9) {
+                return
+            }else if(noChoiceListLength === 9 && !win && !loss) {
+                console.log(noChoiceListLength)
                 endMessageCreator.createEndMessage('ITS A DRAW!')
+                return
             }
         }
     }
@@ -147,6 +157,9 @@ const endMessageCreator = (() => {
     const player_one_score = document.querySelector('.player-one-span')
     const player_two_score = document.querySelector('.player-two-span')
 
+    const backToMenu = document.getElementById('back-to-menu')
+    
+
     let scores = []
     
     const createEndMessage = (message) => {
@@ -163,6 +176,13 @@ const endMessageCreator = (() => {
     const startGame = () => {
         start_page.setAttribute('style','display:none;')
         game_page.setAttribute('style','display:grid; grid-template-columns:1fr 1fr 1fr;')
+    }
+
+    const toMenu = () => {
+        restartGame()
+        getScore(true)
+        game_page.setAttribute('style', 'display:none;')
+        start_page.setAttribute('style', 'display:flex;')
     }
 
     const getPlayers = () => {
@@ -194,14 +214,20 @@ const endMessageCreator = (() => {
         else if(message === 'LOSS') {
             scores.push('o')
         }
-        
+        console.log(scores)
     }
 
-    const getScore = () => {
+    const getScore = (message) => {
         let xScore = 0
         let oScore = 0
         for(let i = 0;i < scores.length;i++) {
-            if(scores[i] === 'x') {
+
+            if(message === true) {
+                xScore = 0
+                oScore = 0
+                return
+            }
+            else if(scores[i] === 'x') {
                 xScore += 1
             }else if(scores[i] === 'o'){
                 oScore += 1
@@ -214,6 +240,7 @@ const endMessageCreator = (() => {
     restart.addEventListener('click', restartGame)
     start_button.addEventListener('click', startGame)
     start_button.addEventListener('click', getPlayers)
+    backToMenu.addEventListener('click', toMenu)
     return { createEndMessage, restartGame, getPlayers,setScore,getScore}
 })()
 
