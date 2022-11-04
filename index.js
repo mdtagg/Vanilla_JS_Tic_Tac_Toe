@@ -11,7 +11,6 @@ const displayController = (() => {
             e.target.textContent = 'X'
             noChoiceList.push(parseInt(e.target.dataset.attribute))
             return
-            // console.log(noChoiceList)
         }
         else if(noChoiceList.length >= 9){
             let noChoiceListLength = noChoiceList.length
@@ -37,12 +36,9 @@ const displayController = (() => {
             }
         }
     }
-    
     const resetChoiceList = () => {
-        console.log(noChoiceList)
         noChoiceList = []
     }
-    
     return { playerChoice,aiChoice,resetChoiceList }
 
 })()
@@ -98,7 +94,6 @@ const checkForEndGame = (() => {
         
         let testArray = [rowOne,rowTwo,rowThree,columnOne,columnTwo,columnThree,
         diagonalOne,diagonalTwo]
-        console.log(testArray)
 
         for(let i = 0;i < 9;i++) {
             if(testArray[i] === winningCombo) {
@@ -110,9 +105,7 @@ const checkForEndGame = (() => {
             }
         }
     }
-
     return { checkWins }
-
 })()
 
 const endMessageCreator = (() => {
@@ -129,15 +122,10 @@ const endMessageCreator = (() => {
     const restartGame = () => {
         gameFlow.boxes.forEach(box => box.textContent = "")
         modal.setAttribute('style','display:none;')
-        displayController.resetChoiceList()
-        // xTurn = true
-        
+        displayController.resetChoiceList() 
     }
-
     restart.addEventListener('click', restartGame)
-
     return { createEndMessage, restartGame}
-
 })()
 
 // const restart = (() => {

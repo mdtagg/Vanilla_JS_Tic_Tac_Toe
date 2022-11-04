@@ -55,6 +55,7 @@ h1 {
     background-color: rebeccapurple;
     color:white;
     display:block;
+    cursor:pointer;
 }
 
 .title {
@@ -62,7 +63,6 @@ h1 {
     font-size: 2rem;
     text-shadow: 0px 0px 20px;
     font-weight: 200;
-    /* font-family:'Warnes', cursive; */
 }
 
 .container {
@@ -102,5 +102,3 @@ h1 {
 .box:hover {
     background-color: rgba(154,205,50,0.3);
 }
-
-/* rgba(255,0,204) */
