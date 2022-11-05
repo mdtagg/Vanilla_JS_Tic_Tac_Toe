@@ -30,9 +30,7 @@ h1 {
     align-items: center;
     justify-content: center;
     margin:auto;
-    /* position:fixed; */
     z-index:1;
-    /* border:1px solid white; */
     font-size: 50px;
 }
 
@@ -40,17 +38,18 @@ h1 {
     height:50px;
     width:200px;
     background-color: transparent;
-    box-shadow:2px 2px 100px yellowgreen;
+    box-shadow:2px 2px 100px greenyellow;
     margin-top:50px;
-    border:1px solid yellowgreen;
+    border:1px solid greenyellow;
     cursor:pointer;
-    color:yellowgreen;
+    color:greenyellow;
     font-family: 'Neonderthaw', cursive;
     font-size:2rem;
 }
 
 .start-page .title {
     font-size: 100px;
+    animation:pulse 2.5s infinite alternate;
 }
 
 #computer {
@@ -59,13 +58,6 @@ h1 {
     width:25px;
     height:25px;
 }
-
-/* .score {
-    border:1px solid white;
-    height:100px;
-    width:100%;
-    margin-top:50px;
-} */
 
 input, label {
     height:30px;
@@ -82,7 +74,6 @@ input, label {
     gap:30px;
 }
 .score {
-    /* border:1px solid white; */
     color:white;
     font-size:50px;
     display:flex;
@@ -93,7 +84,7 @@ input, label {
 }
 
 .score-title {
-    border-bottom:1px solid yellowgreen;
+    border-bottom:1px solid greenyellow;
     display:flex;
     justify-content: center;
 }
@@ -133,6 +124,24 @@ input, label {
     color:white;
     display:block;
     cursor:pointer;
+}
+
+@keyframes pulse {
+
+100% {
+    text-shadow:
+      0 0 4px #adff2f,
+      0 0 11px #adff2f,
+      0 0 19px #adff2f,
+      0 0 40px #adff2f;
+  }
+  0% {
+    text-shadow:
+      0 0 2px #adff2f,
+      0 0 4px #adff2f,
+      0 0 6px #adff2f,
+      0 0 10px #adff2f;
+}
 }
 
 .title {
@@ -189,7 +198,6 @@ input, label {
 }
 
 .back-to-start {
-    /* border:1px solid white; */
     width:100%;
     display:flex;
     align-items: center;
@@ -199,7 +207,7 @@ input, label {
 .back-to-start button {
     height:50px;
     width:300px;
-    color:yellowgreen;
+    color:greenyellow;
     background-color:transparent;
     border:1px solid yellowgreen;
     box-shadow:0px 0px 10px yellowgreen;
@@ -208,3 +216,4 @@ input, label {
     cursor: pointer;
     margin-right:40px;
 }
+

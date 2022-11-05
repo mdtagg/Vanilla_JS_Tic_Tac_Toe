@@ -193,6 +193,7 @@ const endMessageCreator = (() => {
     const toMenu = () => {
         restartGame()
         getScore(true)
+        playerReset()
         game_page.setAttribute('style', 'display:none;')
         start_page.setAttribute('style', 'display:flex;')
     }
@@ -249,10 +250,15 @@ const endMessageCreator = (() => {
         player_two_score.textContent = `${oScore}`
     }
 
+    const playerReset = () => {
+        player_one_score.textContent = ""
+        player_two_score.textContent = ""
+    }
+
     restart.addEventListener('click', restartGame)
     start_button.addEventListener('click', startGame)
     start_button.addEventListener('click', getPlayers)
     backToMenu.addEventListener('click', toMenu)
-    return { createEndMessage, restartGame, getPlayers,setScore,getScore}
+    return { createEndMessage, restartGame, getPlayers,setScore,getScore,playerReset }
 })()
 
