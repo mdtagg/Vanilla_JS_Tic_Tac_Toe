@@ -17,15 +17,16 @@ const displayController = (() => {
             noChoiceList.push(parseInt(e.target.dataset.attribute))
             checkForEndGame.checkWins(noChoiceList.length)
         }
-        else if(noChoiceList.length < 9) {
+        else if(noChoiceList.length < 8) {
             e.target.textContent = 'X'
             noChoiceList.push(parseInt(e.target.dataset.attribute))
             // checkForEndGame.checkWins(noChoiceList.length)
             // aiChoice(noChoiceList.length)
-            return
+            // return
         }
-        else if(noChoiceList.length === 9){
-            
+        else if(noChoiceList.length === 8){
+            e.target.textContent = 'X'
+            noChoiceList.push(parseInt(e.target.dataset.attribute))
             checkForEndGame.checkWins(noChoiceList.length)
             // noChoiceList = []
             return
@@ -34,7 +35,8 @@ const displayController = (() => {
 
     const aiChoice = () => {
 
-        if(endMessageCreator.getPlayers() || noChoiceList.length === 9) {
+        if(endMessageCreator.getPlayers() || noChoiceList.length === 8) {
+            console.log('ai choice')
             return
         }else {
             let randomNumber = Math.floor(Math.random() * 9)
@@ -54,7 +56,7 @@ const displayController = (() => {
         }
     }
     const resetChoiceList = () => {
-        noChoiceList = []
+        noChoiceList = new Array
     }
     return { playerChoice,aiChoice,resetChoiceList,noChoiceList }
 
@@ -75,9 +77,14 @@ const gameFlow = (() => {
         return
     }
 
-    const createBoard = () => {
+    const createBoard = (message) => {
 
-        const board = []
+        let board = []
+
+        if(message) {
+            board = new Array
+        }
+
         for(let i = 0;i < boxes.length;i++) {
             if(boxes[i].textContent === 'X') {
                 board.push(1)
@@ -97,7 +104,7 @@ const checkForEndGame = (() => {
     let losingCombo = '0,0,0'
     
     const checkWins = (noChoiceListLength) => {
-        console.log(noChoiceListLength)
+        
         const boardMarks = gameFlow.createBoard()
 
         let win = false;
@@ -117,6 +124,10 @@ const checkForEndGame = (() => {
         let testArray = [rowOne,rowTwo,rowThree,columnOne,columnTwo,columnThree,
         diagonalOne,diagonalTwo]
 
+        console.log(testArray)
+
+        console.log(testArray.includes('1,1,1'))
+
         for(let i = 0;i < 9;i++) {
             if(testArray[i] === winningCombo) {
                 win = true
@@ -130,8 +141,7 @@ const checkForEndGame = (() => {
                 endMessageCreator.setScore('LOSS')
                 endMessageCreator.getScore()
                 return
-            }else if(noChoiceListLength === 9 && !win && !loss) {
-                console.log(noChoiceListLength)
+            }else if(noChoiceListLength === 9 && !testArray.includes('1,1,1') && !testArray.includes('0,0,0')) {
                 endMessageCreator.createEndMessage('ITS A DRAW!')
                 return
             }
@@ -171,6 +181,8 @@ const endMessageCreator = (() => {
         gameFlow.boxes.forEach(box => box.textContent = "")
         modal.setAttribute('style','display:none;')
         displayController.resetChoiceList() 
+        gameFlow.createBoard(true)
+        // getScore(true)
     }
 
     const startGame = () => {
@@ -214,7 +226,6 @@ const endMessageCreator = (() => {
         else if(message === 'LOSS') {
             scores.push('o')
         }
-        console.log(scores)
     }
 
     const getScore = (message) => {
@@ -222,9 +233,10 @@ const endMessageCreator = (() => {
         let oScore = 0
         for(let i = 0;i < scores.length;i++) {
 
-            if(message === true) {
+            if(message) {
                 xScore = 0
                 oScore = 0
+                scores = new Array
                 return
             }
             else if(scores[i] === 'x') {
