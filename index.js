@@ -20,15 +20,11 @@ const displayController = (() => {
         else if(noChoiceList.length < 8) {
             e.target.textContent = 'X'
             noChoiceList.push(parseInt(e.target.dataset.attribute))
-            // checkForEndGame.checkWins(noChoiceList.length)
-            // aiChoice(noChoiceList.length)
-            // return
         }
         else if(noChoiceList.length === 8){
             e.target.textContent = 'X'
             noChoiceList.push(parseInt(e.target.dataset.attribute))
             checkForEndGame.checkWins(noChoiceList.length)
-            // noChoiceList = []
             return
         }
     }
@@ -106,9 +102,6 @@ const checkForEndGame = (() => {
     const checkWins = (noChoiceListLength) => {
         
         const boardMarks = gameFlow.createBoard()
-
-        let win = false;
-        let loss = false;
             
         let rowOne = boardMarks.slice(0,3).toString()
         let rowTwo = boardMarks.slice(3,6).toString()
@@ -123,10 +116,6 @@ const checkForEndGame = (() => {
         
         let testArray = [rowOne,rowTwo,rowThree,columnOne,columnTwo,columnThree,
         diagonalOne,diagonalTwo]
-
-        console.log(testArray)
-
-        console.log(testArray.includes('1,1,1'))
 
         for(let i = 0;i < 9;i++) {
             if(testArray[i] === winningCombo) {
@@ -169,7 +158,6 @@ const endMessageCreator = (() => {
 
     const backToMenu = document.getElementById('back-to-menu')
     
-
     let scores = []
     
     const createEndMessage = (message) => {
@@ -182,7 +170,6 @@ const endMessageCreator = (() => {
         modal.setAttribute('style','display:none;')
         displayController.resetChoiceList() 
         gameFlow.createBoard(true)
-        // getScore(true)
     }
 
     const startGame = () => {
