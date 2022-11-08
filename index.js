@@ -8,41 +8,40 @@ const startPageObject = (() => {
     const playerTwoInput = document.getElementById('playerTwo')
     const playerOneScoreboard = document.querySelector('.player-one')
     const playerTwoScoreBoard = document.querySelector('.player-two')
+    const computerCheck = document.getElementById('computer')
 
     const startGame = () => {
-    
-        start_page.setAttribute('style','display:none;')
-        game_page.setAttribute('style','display:grid; grid-template-columns:1fr 1fr 1fr;')
-
+        if(computerCheck.checked && playerTwoInput.value !== "") {
+            alert('Please choose between playing against another person or the computer')
+            return
+        }else {
+            start_page.setAttribute('style','display:none;')
+            game_page.setAttribute('style','display:grid; grid-template-columns:1fr 1fr 1fr;')
+            createPlayers()
+        }
     }
 
-    const getPlayerValues = () => {
-
+    const createPlayers = () => {
         const playerOneValue = playerOneInput.value
-        const playerTwoValue = playerTwoInput.value
+        let playerTwoValue
+        let againstComputer
 
-        const playerOne = gamePageObject.createPlayer(playerOneValue)
-        const playerTwo = gamePageObject.createPlayer(playerTwoValue)
-       
+        if(computerCheck.checked) {
+            playerTwoValue = 'Computer'
+            againstComputer = true
+        }else {
+            playerTwoValue = playerTwoInput.value
+            againstComputer = false
+        }
+        
+        const playerOne = createPlayer(playerOneValue)
+        const playerTwo = createPlayer(playerTwoValue)
+
         playerOneScoreboard.textContent = playerOne.name
         playerTwoScoreBoard.textContent = playerTwo.name
 
-
-        return { playerOne, playerTwo }
+        gamePageObject.getPlayers(playerOne,playerTwo,againstComputer)
     }
-
-
-    start_button.addEventListener('click', startGame)
-    start_button.addEventListener('click', getPlayerValues)
-
-    return { startGame,getPlayerValues }
-})()
-
-const gamePageObject = (() => {
-
-    
-    // const players = gamePageObject.getPlayers()
-    // const playerTwo = gamePageObject.createPlayer(playerTwoValue)
 
     const createPlayer = (name,score=0) => {
         this.name = name;
@@ -51,7 +50,146 @@ const gamePageObject = (() => {
         return { name,score }
     }
 
-    return { createPlayer }
+    start_button.addEventListener('click', startGame)
+
+    return { startGame,createPlayers }
+})()
+
+const gamePageObject = (() => {
+
+    const boxes = document.querySelectorAll('.box')
+    let noChoiceList = []
+    let noChoiceListLength = noChoiceList.length
+    let playerOneObject
+    let playerTwoObject
+    let againstComputerBool
+    
+    const getPlayers = (playerOne,playerTwo,againstComputer) => {
+        playerOneObject = playerOne;
+        playerTwoObject = playerTwo;
+        againstComputerBool = againstComputer
+    }
+
+    const markBox = (e) => {
+        if(e.target.textContent === 'X' || e.target.textContent === 'O') {
+            return
+        }else if(!againstComputerBool) {
+            e.target.textContent = 'X'
+            noChoiceList.push(parseInt(e.target.dataset.attribute))
+        }else if(againstComputerBool) {
+            e.target.textContent = 'X'
+            noChoiceList.push(parseInt(e.target.dataset.attribute))
+            aiChoice()
+        }
+    }
+
+    const aiChoice = () => {
+        if(noChoiceListLength === 9) {
+            return
+        }else {
+            const randomNumber = Math.floor(Math.random() * 9)
+
+            if(noChoiceList.includes(randomNumber)) {
+                aiChoice()
+                return
+            }else {
+                boxes[randomNumber].textContent = 'O'
+                noChoiceList.push(parseInt(boxes[randomNumber].dataset.attribute))
+                // console.log(noChoiceList)
+                checkForEndGame()
+            }
+        }
+    }
+ 
+    const checkForEndGame = () => {
+        const winningCombo = 'X,X,X'
+        const losingCombo = 'O,O,O'
+        let board = createBoard()
+        let win = false
+        let loss = false
+
+        const rows = createRows(board)
+        const columns = createColumns(board)
+        const diagonals = createDiagonals(board)
+
+        for(let i = 0;i < 3;i++) {
+            console.log(rows[i])
+            console.log(winningCombo)
+            if(rows[i] === winningCombo || 
+                columns[i] === winningCombo ||
+                diagonals[i] === winningCombo) {
+                    console.log('YOU WIN')
+                    win = true
+                }
+            else if(rows[i] === losingCombo ||
+                columns[i] === losingCombo ||
+                diagonals[i] === losingCombo) {
+                    console.log('YOU LOSE')
+                    loss = true
+                }
+            else if(noChoiceListLength === 9 && !win && !loss) {
+                console.log('TIE GAME')
+                }
+                
+            }
+
+    }
+
+    const createBoard = () => {
+        let boardArray = []
+        for(let i = 0;i < boxes.length;i++) {
+            if(boxes[i] !== '') {
+                boardArray.push(boxes[i].textContent)
+            }else {
+                boardArray.push('')
+            }
+        }
+        return boardArray
+    }
+
+    const createRows = (board) => {
+        let rows = []
+        let index = 0
+        let counter = 3
+        
+        for(let i = 0;i < 3;i++) {
+            let row = []
+            let indexCounter = counter - 1
+            for(let j = index;j < counter;j++) {
+
+                if(j < indexCounter) {
+                    row.push(board[j])
+                }else if(j === indexCounter){
+                    row.push(board[j])
+                    rows.push(row.toString())
+                    counter += 3
+                    index += 3
+                }
+            }
+        }
+        return rows
+    }
+
+    const createColumns = (board) => {
+        const columns = []
+        const columnOne = [board[0],board[3],board[6]].toString()
+        const columnTwo = [board[1],board[4],board[7]].toString()
+        const columnThree = [board[2],board[5],board[8]].toString()
+        columns.push(columnOne,columnTwo,columnThree)
+        return columns 
+    }
+
+    const createDiagonals = (board) => {
+        const diagonals = []
+        const diagonalOne = [board[0],board[4],board[8]].toString()
+        const diagonalTwo = [board[2],board[4],board[6]].toString()
+        diagonals.push(diagonalOne,diagonalTwo)
+        return diagonals 
+    }
+
+    boxes.forEach(box => box.addEventListener('click', markBox))
+
+    return { getPlayers }
 
 })()
 
