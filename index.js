@@ -63,6 +63,9 @@ const gamePageObject = (() => {
     let playerOneObject
     let playerTwoObject
     let againstComputerBool
+    let gameOver = false
+    const playerOneScore = document.querySelector('.player-one-span')
+    const playerTwoScore = document.querySelector('.player-two-span')
     
     const getPlayers = (playerOne,playerTwo,againstComputer) => {
         playerOneObject = playerOne;
@@ -79,12 +82,13 @@ const gamePageObject = (() => {
         }else if(againstComputerBool) {
             e.target.textContent = 'X'
             noChoiceList.push(parseInt(e.target.dataset.attribute))
+            checkForEndGame()
             aiChoice()
         }
     }
 
     const aiChoice = () => {
-        if(noChoiceListLength === 9) {
+        if(noChoiceListLength === 9 || gameOver) {
             return
         }else {
             const randomNumber = Math.floor(Math.random() * 9)
@@ -113,26 +117,28 @@ const gamePageObject = (() => {
         const diagonals = createDiagonals(board)
 
         for(let i = 0;i < 3;i++) {
-            console.log(rows[i])
-            console.log(winningCombo)
+    
             if(rows[i] === winningCombo || 
                 columns[i] === winningCombo ||
                 diagonals[i] === winningCombo) {
-                    console.log('YOU WIN')
+                    postGameScreen.createEndMessage(`${playerOneObject.name} won!`)
+                    setScores('X')
                     win = true
+                    gameOver = true
                 }
             else if(rows[i] === losingCombo ||
                 columns[i] === losingCombo ||
                 diagonals[i] === losingCombo) {
-                    console.log('YOU LOSE')
+                    postGameScreen.createEndMessage(`${playerTwoObject.name} won!`)
+                    setScores('O')
                     loss = true
+                    gameOver = true
                 }
             else if(noChoiceListLength === 9 && !win && !loss) {
-                console.log('TIE GAME')
+                postGameScreen.createEndMessage('Its a draw!')
+                gameOver = true
                 }
-                
             }
-
     }
 
     const createBoard = () => {
@@ -187,12 +193,49 @@ const gamePageObject = (() => {
         return diagonals 
     }
 
+    const resetChoiceList = () => {
+        noChoiceList = []
+    }
+
+    const setScores = (message) => {
+        
+        if(message === 'X') {
+            playerOneObject.score++;
+        }else if(message === 'O'){
+            playerTwoObject.score++;
+        }
+
+        playerOneScore.textContent = playerOneObject.score
+        playerTwoScore.textContent = playerTwoObject.score
+    }
+
     boxes.forEach(box => box.addEventListener('click', markBox))
 
-    return { getPlayers }
+    return { getPlayers,resetChoiceList,boxes }
 
 })()
 
+const postGameScreen = (() => {
+
+    const modal = document.querySelector('.modal')
+    const modal_text = document.querySelector('.modal-text')
+    const restart = document.querySelector('.restart-button')
+
+    const createEndMessage = (message) => {
+       modal.setAttribute('style','display:block;')
+       modal_text.textContent = message
+        }
+    
+    const restartGame = () => {
+        gamePageObject.boxes.forEach(box => box.textContent = "")
+        modal.setAttribute('style','display:none;')
+        gamePageObject.resetChoiceList() 
+    }
+
+    restart.addEventListener('click', restartGame)
+
+    return { createEndMessage,restartGame }
+})()
 
 
 
