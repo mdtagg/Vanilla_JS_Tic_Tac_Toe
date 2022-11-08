@@ -59,11 +59,9 @@ const gamePageObject = (() => {
 
     const boxes = document.querySelectorAll('.box')
     let noChoiceList = []
-    let noChoiceListLength = noChoiceList.length
     let playerOneObject
     let playerTwoObject
     let againstComputerBool
-    let gameOver = false
     const playerOneScore = document.querySelector('.player-one-span')
     const playerTwoScore = document.querySelector('.player-two-span')
     
@@ -74,6 +72,7 @@ const gamePageObject = (() => {
     }
 
     const markBox = (e) => {
+        
         if(e.target.textContent === 'X' || e.target.textContent === 'O') {
             return
         }else if(!againstComputerBool) {
@@ -82,35 +81,36 @@ const gamePageObject = (() => {
         }else if(againstComputerBool) {
             e.target.textContent = 'X'
             noChoiceList.push(parseInt(e.target.dataset.attribute))
-            checkForEndGame()
-            aiChoice()
+            let noChoiceListLength = noChoiceList.length
+            console.log(noChoiceListLength)
+            if(noChoiceListLength === 9) {
+                checkForEndGame(noChoiceListLength)
+            }else {
+                aiChoice()
+            }
         }
     }
 
     const aiChoice = () => {
-        if(noChoiceListLength === 9 || gameOver) {
-            return
-        }else {
-            const randomNumber = Math.floor(Math.random() * 9)
+        console.log('test fire')
+        const randomNumber = Math.floor(Math.random() * 9)
 
-            if(noChoiceList.includes(randomNumber)) {
-                aiChoice()
-                return
-            }else {
-                boxes[randomNumber].textContent = 'O'
-                noChoiceList.push(parseInt(boxes[randomNumber].dataset.attribute))
-                // console.log(noChoiceList)
-                checkForEndGame()
-            }
+        if(noChoiceList.includes(randomNumber)) {
+            aiChoice()
+        }else {
+            boxes[randomNumber].textContent = 'O'
+            noChoiceList.push(parseInt(boxes[randomNumber].dataset.attribute))
+            checkForEndGame()
         }
     }
  
-    const checkForEndGame = () => {
+    const checkForEndGame = (noChoiceListLength) => {
         const winningCombo = 'X,X,X'
         const losingCombo = 'O,O,O'
         let board = createBoard()
         let win = false
         let loss = false
+        // console.log(noChoiceListLength)
 
         const rows = createRows(board)
         const columns = createColumns(board)
@@ -121,22 +121,19 @@ const gamePageObject = (() => {
             if(rows[i] === winningCombo || 
                 columns[i] === winningCombo ||
                 diagonals[i] === winningCombo) {
-                    postGameScreen.createEndMessage(`${playerOneObject.name} won!`)
+                    postGameObject.createEndMessage(`${playerOneObject.name} won!`)
                     setScores('X')
                     win = true
-                    gameOver = true
                 }
             else if(rows[i] === losingCombo ||
                 columns[i] === losingCombo ||
                 diagonals[i] === losingCombo) {
-                    postGameScreen.createEndMessage(`${playerTwoObject.name} won!`)
+                    postGameObject.createEndMessage(`${playerTwoObject.name} won!`)
                     setScores('O')
                     loss = true
-                    gameOver = true
                 }
             else if(noChoiceListLength === 9 && !win && !loss) {
-                postGameScreen.createEndMessage('Its a draw!')
-                gameOver = true
+                postGameObject.createEndMessage('Its a draw!')
                 }
             }
     }
@@ -194,7 +191,8 @@ const gamePageObject = (() => {
     }
 
     const resetChoiceList = () => {
-        noChoiceList = []
+        noChoiceList = new Array
+        console.log('test')
     }
 
     const setScores = (message) => {
@@ -209,13 +207,16 @@ const gamePageObject = (() => {
         playerTwoScore.textContent = playerTwoObject.score
     }
 
-    boxes.forEach(box => box.addEventListener('click', markBox))
+    boxes.forEach(box => {
+        box.addEventListener('click', markBox)
+        // box.addEventListener('click', aiChoice)
+        })
 
-    return { getPlayers,resetChoiceList,boxes }
+    return { getPlayers,resetChoiceList,boxes,noChoiceList }
 
 })()
 
-const postGameScreen = (() => {
+const postGameObject = (() => {
 
     const modal = document.querySelector('.modal')
     const modal_text = document.querySelector('.modal-text')
@@ -229,7 +230,7 @@ const postGameScreen = (() => {
     const restartGame = () => {
         gamePageObject.boxes.forEach(box => box.textContent = "")
         modal.setAttribute('style','display:none;')
-        gamePageObject.resetChoiceList() 
+        gamePageObject.resetChoiceList()
     }
 
     restart.addEventListener('click', restartGame)
