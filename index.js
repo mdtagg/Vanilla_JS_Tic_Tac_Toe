@@ -50,9 +50,14 @@ const startPageObject = (() => {
         return { name,score }
     }
 
+    const toMenu = () => {
+        game_page.setAttribute('style', 'display:none;')
+        start_page.setAttribute('style', 'display:flex;')
+    }
+
     start_button.addEventListener('click', startGame)
 
-    return { startGame,createPlayers }
+    return { startGame,createPlayers,toMenu }
 })()
 
 const gamePageObject = (() => {
@@ -64,6 +69,7 @@ const gamePageObject = (() => {
     let againstComputerBool
     const playerOneScore = document.querySelector('.player-one-span')
     const playerTwoScore = document.querySelector('.player-two-span')
+    let xTurn = true;
     
     const getPlayers = (playerOne,playerTwo,againstComputer) => {
         playerOneObject = playerOne;
@@ -76,13 +82,20 @@ const gamePageObject = (() => {
         if(e.target.textContent === 'X' || e.target.textContent === 'O') {
             return
         }else if(!againstComputerBool) {
-            e.target.textContent = 'X'
+            if(xTurn) {
+                e.target.textContent = 'X'
+                xTurn = false
+                checkForEndGame()
+            }else {
+                xTurn = true
+                e.target.textContent = 'O'
+                checkForEndGame()
+            }
             noChoiceList.push(parseInt(e.target.dataset.attribute))
         }else if(againstComputerBool) {
             e.target.textContent = 'X'
             noChoiceList.push(parseInt(e.target.dataset.attribute))
             let noChoiceListLength = noChoiceList.length
-            console.log(noChoiceListLength)
             if(noChoiceListLength === 9) {
                 checkForEndGame(noChoiceListLength)
             }else {
@@ -124,6 +137,7 @@ const gamePageObject = (() => {
                     postGameObject.createEndMessage(`${playerOneObject.name} won!`)
                     setScores('X')
                     win = true
+                    return
                 }
             else if(rows[i] === losingCombo ||
                 columns[i] === losingCombo ||
@@ -131,6 +145,7 @@ const gamePageObject = (() => {
                     postGameObject.createEndMessage(`${playerTwoObject.name} won!`)
                     setScores('O')
                     loss = true
+                    return
                 }
             else if(noChoiceListLength === 9 && !win && !loss) {
                 postGameObject.createEndMessage('Its a draw!')
@@ -197,7 +212,13 @@ const gamePageObject = (() => {
 
     const setScores = (message) => {
         
-        if(message === 'X') {
+        if(message === 'reset') {
+            playerOneObject.name = ""
+            playerOneObject.score = 0
+            playerTwoObject.name = ""
+            playerTwoObject.score = 0
+        }
+        else if(message === 'X') {
             playerOneObject.score++;
         }else if(message === 'O'){
             playerTwoObject.score++;
@@ -212,7 +233,7 @@ const gamePageObject = (() => {
         // box.addEventListener('click', aiChoice)
         })
 
-    return { getPlayers,resetChoiceList,boxes,noChoiceList }
+    return { getPlayers,resetChoiceList,boxes,setScores }
 
 })()
 
@@ -221,6 +242,7 @@ const postGameObject = (() => {
     const modal = document.querySelector('.modal')
     const modal_text = document.querySelector('.modal-text')
     const restart = document.querySelector('.restart-button')
+    const toMenuButton = document.getElementById('back-to-menu')
 
     const createEndMessage = (message) => {
        modal.setAttribute('style','display:block;')
@@ -233,7 +255,14 @@ const postGameObject = (() => {
         gamePageObject.resetChoiceList()
     }
 
+    const toMenu = () => {
+        restartGame()
+        gamePageObject.setScores('reset')
+        startPageObject.toMenu()
+    }
+
     restart.addEventListener('click', restartGame)
+    toMenuButton.addEventListener('click', toMenu)
 
     return { createEndMessage,restartGame }
 })()
