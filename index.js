@@ -17,7 +17,7 @@ const startPageObject = (() => {
             alert('Please choose between playing against another person or the computer')
             return
         }else {
-            queryObject.start_page.setAttribute('style','display:none;')
+            start_page.setAttribute('style','display:none;')
             game_page.setAttribute('style','display:grid; grid-template-columns:1fr 1fr 1fr;')
             createPlayers()
         }
